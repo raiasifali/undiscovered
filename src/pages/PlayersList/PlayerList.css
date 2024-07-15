@@ -1,0 +1,53 @@
+.player-list-table tr td {
+  padding: 16px 0px 28px;
+}
+
+.player-list-table tr {
+  border-bottom: 1px solid #dbdbdb;
+}
+.player-list-table tr:last-child {
+  border: none;
+}
+
+.player-list-table tr:first-child th {
+  padding-bottom: 14px;
+}
+
+.player-list-table tr th {
+  text-align: start;
+}
+
+.player-list-table tr td:nth-child(2) {
+  width: 25%;
+}
+.player-list-table tr td:nth-child(3),
+.player-list-table tr td:nth-child(4),
+.player-list-table tr td:nth-child(5) {
+  width: 10%;
+}
+
+@media screen and (min-width: 360px) {
+  .player-list-table tr td,
+  .player-list-table tr th {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .player-list-table tr td,
+  .player-list-table tr th {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+.filtered-list-player{
+  display: flex;
+  flex-direction: column;
+}
+.filtered-list-player > :nth-child(even) {
+  background-color: #EAF0F6;
+}
+
+.filtered-list-player > :nth-child(odd) {
+  background-color: white;
+}

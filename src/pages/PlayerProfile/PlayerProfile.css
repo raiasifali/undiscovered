@@ -1,0 +1,228 @@
+.personal-stats .holder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.personal-stats .holder::after {
+  content: "";
+  top: 0;
+  right: -20px;
+  position: absolute;
+  width: 2px;
+  height: 28px;
+  background-color: rgba(110, 119, 154, 0.2);
+}
+
+.personal-stats .holder:last-child:after {
+  display: none;
+}
+
+.personal-stats .holder p {
+  color: #131416;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20.8px;
+}
+
+.personal-stats .holder .value {
+  color: #131416;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.info-box {
+  background: #fff;
+
+  box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.05);
+}
+
+.season-stats .holder {
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.season-stats .holder::after {
+  content: "";
+  top: 0;
+  right: -50px;
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background: #9c9c9c;
+}
+
+.season-stats .holder:last-child:after {
+  display: none;
+}
+
+.season-stats .holder .value {
+  color: #000;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.small--gray--text {
+  color: #6a6a6a;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.player-content .react-tabs__tab-list {
+  border: none;
+}
+
+.player-content .react-tabs__tab {
+  padding: 8px 70px;
+  color: #0e0e0e;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  border: none;
+  border-bottom: 1px solid transparent;
+}
+
+.player-content .react-tabs__tab--selected {
+  border-color: #f33;
+  color: #f33;
+}
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}
+
+.single-profile-content .title {
+  color: #6a6a6a;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20.8px;
+}
+
+.single-profile-content .content {
+  padding-top: 16px;
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+}
+
+.stats-table {
+  width: 100%;
+  border-radius: 0px 12px 0px 0px;
+}
+
+.stats-table th,
+.stats-table td {
+  text-align: start;
+  padding: 10px;
+  font-weight: 500;
+}
+
+.stats-table td {
+  background-color: #f8fafc;
+}
+
+.stats-table tr:first-child th:first-child {
+  border-radius: 12px 0px 0px 0px;
+}
+
+.stats-table tr:first-child th:last-child {
+  border-radius: 0px 12px 0px 0px;
+}
+
+.stats-table tr:last-child td:first-child {
+  border-radius: 0px 0px 0px 12px;
+}
+
+.stats-table tr:last-child td:last-child {
+  border-radius: 0px 0px 12px 0px;
+}
+
+@media screen and (min-width: 360px) {
+  .season-stats .holder::after {
+    right: -20px;
+  }
+
+  .player-content .react-tabs__tab-list {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 12px;
+  }
+
+  .player-content .react-tabs__tab-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .player-content .react-tabs__tab {
+    padding: 2px 10px;
+    min-width: 60px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .season-stats .holder::after {
+    right: -50px;
+  }
+
+  .player-content .react-tabs__tab {
+    padding: 8px 70px;
+    font-size: 16px;
+    font-style: normal;
+  }
+
+  .player-content .react-tabs__tab-list {
+    display: block;
+    overflow-x: initial;
+    overflow-y: initial;
+  }
+}
+
+
+
+
+
+.popup {
+  position: absolute;
+  top: 13rem;
+  /* Adjust as needed */
+
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 10px;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.popup-item:hover {
+  background-color: #f0f0f0;
+}
+
+.popup-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}

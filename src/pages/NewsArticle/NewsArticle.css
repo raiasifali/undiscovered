@@ -1,0 +1,38 @@
+.news-article-description h3 {
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 42px;
+}
+
+.news-article-description p {
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 42px;
+}
+
+.news-article-description .profile--link {
+  color: #ffb900;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 42px;
+  text-decoration-line: underline;
+}
+.profile--link-container {
+  position: relative;
+}
+
+.hovered-player-details {
+  position: absolute;
+  top: -80px; /* Adjust based on your layout */
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  z-index: 1000;
+  display: flex;
+  gap: 1rem;
+  border-radius: 50px;
+  background-color: #f3f3f3;
+}
