@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.5.0",
     "@stripe/react-stripe-js": "^2.7.1",
     "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
     "hamburger-react": "^2.5.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
@@ -33,8 +35,7 @@
     "react-tabs": "^6.0.2",
     "sort-by": "^1.2.0",
     "swiper": "^11.1.4",
-    "toastr": "^2.1.4",
-    "vite-plugin-vercel": "^8.0.0"
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

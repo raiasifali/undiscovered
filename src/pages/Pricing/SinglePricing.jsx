@@ -1,60 +1,96 @@
-import PropTypes from "prop-types";
-import axios from "axios";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
 import {
   PaymentElement,
   Elements,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { BASE_URL } from "../../baseurl/baseurl";
-
+import { BASE_URL } from '../../baseurl/baseurl';
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 const SinglePricing = ({
   price,
   title,
   serviceList,
   yearlyPrice,
   isToggled,
-  isYearlyActive 
+  isYearlyActive,
+  activePlan,
+  setActivePlan,
 }) => {
-  const stripe=useStripe();
-  
-  const getSessionToken=async()=>{
-  
-    const headers={
-      headers:{
-        authorization:`Bearer ${JSON.parse(localStorage?.getItem('user'))?.token}`
-      }
-    }
+  const stripe = useStripe();
+  const [loading, setLoading] = useState(false);
+  const currentPlan =
+    parseInt(isYearlyActive ? yearlyPrice : activePlan?.amount) ===
+    parseInt(price);
+
+  const getSessionToken = async () => {
+    const headers = {
+      headers: {
+        authorization: `Bearer ${
+          JSON.parse(localStorage?.getItem('user'))?.token
+        }`,
+      },
+    };
 
     let subscriptionType;
 
+    if (isYearlyActive) {
+      subscriptionType = 'year';
+      price = yearlyPrice;
+    } else {
+      subscriptionType = 'month';
+    }
 
-if(isYearlyActive ){
-  subscriptionType="year"
-price=yearlyPrice
-}else{
- 
-  subscriptionType="month"
-}
+    let response = await axios.post(
+      `${BASE_URL}/create-session`,
+      { title, price, subscriptionType },
+      headers
+    );
 
-    let response=await axios.post(`${BASE_URL}/create-session`,{title,price,subscriptionType},headers)
-    console.log(response.data)
-   await stripe.redirectToCheckout({
-      sessionId:response.data.session.id
-    })
-  }
+    await stripe.redirectToCheckout({
+      sessionId: response.data.session.id,
+    });
+  };
+  const cancelSubscription = async () => {
+    setLoading(true);
+    if (activePlan?.sessionId) {
+      const headers = {
+        headers: {
+          authorization: `Bearer ${
+            JSON.parse(localStorage?.getItem('user'))?.token
+          }`,
+        },
+      };
+      let response = await axios.post(
+        `${BASE_URL}/cancel-subscription`,
+        { sessionId: activePlan?.sessionId },
+        headers
+      );
+      setLoading(false);
+      if (response?.data?.success) {
+        localStorage.removeItem('subscription');
+        setActivePlan(null);
+        toastr.success('Canceled plan');
+      } else {
+        toastr.success('Something went wrong');
+      }
+    }
+  };
   return (
     <div className="px-5 py-[30px] flex flex-col items-center gap-[30px]">
       {/* top */}
       <div className="flex flex-col items-center gap-2.5">
         <p className="text-[18px] text-[#131313] font-medium "> {title} </p>
         <p className="text-[18px] text-[#131313] font-medium ">
-          {" "}
+          {' '}
           <span className="text-[32px] font-bold leading-7 ">
-            {" "}
-            ${isToggled ? yearlyPrice : price}{" "}
+            {' '}
+            ${isToggled ? yearlyPrice : price}{' '}
           </span>
-          {isToggled ? "/year" : "/month"}
+          {isToggled ? '/year' : '/month'}
         </p>
       </div>
 
@@ -82,15 +118,28 @@ price=yearlyPrice
               </div>
               <p className="text-[18px] leading-8 text-[#131313] font-normal ">
                 {item}
-              </p>{" "}
+              </p>{' '}
             </div>
           ))}
       </div>
 
       {/* get started button */}
-      <button onClick={getSessionToken} className="text-base left-6 font-normal py-2.5 rounded-[30px] bg-[#fff] border border-solid border-primaryColor text-primaryColor ease-in-out duration-300 hover:bg-primaryColor hover:text-[#fff] w-full text-center  ">
-        {" "}
-        Get Started{" "}
+      <button
+        disabled={activePlan && !currentPlan}
+        onClick={() => {
+          currentPlan ? cancelSubscription() : getSessionToken();
+        }}
+        className={
+          activePlan && !currentPlan
+            ? 'text-base left-6 font-normal py-2.5 rounded-[30px] bg-[#bbb] border border-solid border-[#bbb]  ease-in-out duration-300  w-full text-center  '
+            : 'text-base left-6 font-normal py-2.5 rounded-[30px] bg-[#fff] border border-solid border-primaryColor text-primaryColor ease-in-out duration-300 hover:bg-primaryColor hover:text-[#fff] w-full text-center  '
+        }
+      >
+        {currentPlan
+          ? loading
+            ? 'Loading...'
+            : 'Cancel subscription'
+          : 'Get Started'}
       </button>
     </div>
   );
