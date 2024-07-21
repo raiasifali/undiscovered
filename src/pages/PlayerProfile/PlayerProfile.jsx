@@ -13,7 +13,15 @@ import { BASE_URL } from '../../baseurl/baseurl';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 import axios from 'axios';
+
+function getUser() {
+  return localStorage.getItem('user');
+}
+
 const PlayerProfile = () => {
+  const isAuthenticated = JSON.parse(getUser());
+  console.log(isAuthenticated, 'auth user');
+
   const [isCollapsed, setIsCollapsed] = useState([
     false,
     false,
@@ -718,7 +726,7 @@ const PlayerProfile = () => {
                     <div className='title flex items-center justify-between cursor-pointer'>
                       <span>CONTACT INFORMATION </span>
                       <button
-                        onClick={() => handleButtonClick(0)}
+                        onClick={() => isAuthenticated && handleButtonClick(0)}
                         className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${
                           isCollapsed[0] ? 'rotate-180' : ''
                         }`}>
@@ -822,7 +830,7 @@ const PlayerProfile = () => {
                     <div className='title flex items-center justify-between cursor-pointer'>
                       <span>CONTACT DETAILS </span>
                       <button
-                        onClick={() => handleButtonClick(1)}
+                        onClick={() => isAuthenticated && handleButtonClick(1)}
                         className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${
                           isCollapsed[1] ? 'rotate-180' : ''
                         }`}>
@@ -1022,7 +1030,7 @@ const PlayerProfile = () => {
                     <div className='title flex items-center justify-between cursor-pointer'>
                       <span>ACADEMICS </span>
                       <button
-                        onClick={() => handleButtonClick(2)}
+                        onClick={() => isAuthenticated && handleButtonClick(2)}
                         className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${
                           isCollapsed[2] ? 'rotate-180' : ''
                         }`}>
@@ -1090,7 +1098,7 @@ const PlayerProfile = () => {
                     <div className='title flex items-center justify-between cursor-pointer'>
                       <span>ATHLETIC ACCOMPLISHMENTS </span>
                       <button
-                        onClick={() => handleButtonClick(3)}
+                        onClick={() => isAuthenticated && handleButtonClick(3)}
                         className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${
                           isCollapsed[3] ? 'rotate-180' : ''
                         }`}>
@@ -1135,7 +1143,7 @@ const PlayerProfile = () => {
                     <div className='title flex items-center justify-between cursor-pointer'>
                       <span>PREVIOUS COACH </span>
                       <button
-                        onClick={() => handleButtonClick(4)}
+                        onClick={() => isAuthenticated && handleButtonClick(4)}
                         className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${
                           isCollapsed[4] ? 'rotate-180' : ''
                         }`}>
