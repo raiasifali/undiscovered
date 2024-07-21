@@ -5,6 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   server: {
     port: process.env.PORT,
+    hmr: {
+      overlay: false,
+    },
   },
+
   plugins: [react()],
 });

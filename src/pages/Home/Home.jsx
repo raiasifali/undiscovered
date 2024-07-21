@@ -113,7 +113,11 @@ const Home = () => {
       <AllNewsArea />
 
       {/* class of players area */}
-      <ClassPlayerArea classPlayers={state?.classPlayers} loading={loading} />
+      <ClassPlayerArea
+        allPlayers={state?.playersData}
+        classPlayers={state?.classPlayers}
+        loading={loading}
+      />
 
       {/* review area */}
       <ReviewArea reviews={state?.testimonial} loading={loading} />
