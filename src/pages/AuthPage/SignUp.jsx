@@ -1,54 +1,53 @@
-import { Link } from "react-router-dom";
-import AuthTop from "../../components/AuthPage/AuthTop";
-import "./AuthPage.css";
-import { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import AuthTop from '../../components/AuthPage/AuthTop';
+import './AuthPage.css';
+import { useState } from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
-import axios from 'axios'
-import { BASE_URL } from "../../baseurl/baseurl";
+import axios from 'axios';
+import { BASE_URL } from '../../baseurl/baseurl';
 const SignUp = () => {
+  const navigate = useNavigate();
   const [isAgreed, setIsAgreed] = useState(false);
-const [state,setState]=useState({
-  firstName:'',
-  lastName:'',
-phoneNumber:'',
-email:'',
-password:'',
-role:''
-})
-
-const register=async(e)=>{
-  e.preventDefault();
- console.log(state)
-try{
-  let response=await axios.post(`${BASE_URL}/register`,state)
-  toastr.success(response.data.message)
-  setState({
-    firstName:'',
-    lastName:'',
-  phoneNumber:'',
-  email:'',
-  password:'',
-  role:''
-  })
-}catch(error){
-  if(error?.response && error?.response?.data){
-    toastr.error(error?.response?.data?.error)
-    }else{
-    toastr.error("Server error please try again")
-    
-    }
-}
-
-
-}
-const handleRoleChange = (e) => {
-  setState({
-      ...state,
-      role: e.target.value
+  const [state, setState] = useState({
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    password: '',
+    role: '',
   });
-};
 
+  const register = async (e) => {
+    e.preventDefault();
+    console.log(state);
+    try {
+      let response = await axios.post(`${BASE_URL}/register`, state);
+      // toastr.success(response.data.message)
+      toastr.success('Account created. Login to continue');
+      setState({
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        email: '',
+        password: '',
+        role: '',
+      });
+      navigate('/login');
+    } catch (error) {
+      if (error?.response && error?.response?.data) {
+        toastr.error(error?.response?.data?.error);
+      } else {
+        toastr.error('Server error please try again');
+      }
+    }
+  };
+  const handleRoleChange = (e) => {
+    setState({
+      ...state,
+      role: e.target.value,
+    });
+  };
 
   return (
     <div>
@@ -56,18 +55,20 @@ const handleRoleChange = (e) => {
       <div className=" w-full flex flex-col items-center justify-center my-[100px]">
         {/* top area */}
         <div>
-          <AuthTop title={"Sign Up!"} subtitle={"Let’s create new account"} />
+          <AuthTop title={'Sign Up!'} subtitle={'Let’s create new account'} />
         </div>
 
         {/* input wrapper */}
         <form className="mt-8 flex flex-col items-center gap-5 auth--form w-full lg:w-[50%] ">
           <div className="w-full relative">
             <input
-            value={state.firstName}
-            onChange={(e)=>setState({
-              ...state,
-              [e.target.name]:e.target.value
-            })}
+              value={state.firstName}
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  [e.target.name]: e.target.value,
+                })
+              }
               type="text"
               name="firstName"
               id="firstName"
@@ -93,11 +94,13 @@ const handleRoleChange = (e) => {
           </div>
           <div className="w-full relative">
             <input
-            value={state.lastName}
-            onChange={(e)=>setState({
-              ...state,
-              [e.target.name]:e.target.value
-            })}
+              value={state.lastName}
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  [e.target.name]: e.target.value,
+                })
+              }
               type="text"
               name="lastName"
               id="LastName"
@@ -123,10 +126,19 @@ const handleRoleChange = (e) => {
           </div>
 
           <div className="w-full relative">
-            <input  onChange={(e)=>setState({
-              ...state,
-              [e.target.name]:e.target.value
-            })} value={state.email} type="email" name="email" id="email" placeholder="Email" />
+            <input
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  [e.target.name]: e.target.value,
+                })
+              }
+              value={state.email}
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+            />
             <div className="icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -147,11 +159,13 @@ const handleRoleChange = (e) => {
 
           <div className="w-full relative">
             <input
-            value={state.phoneNumber}
-            onChange={(e)=>setState({
-              ...state,
-              [e.target.name]:e.target.value
-            })}
+              value={state.phoneNumber}
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  [e.target.name]: e.target.value,
+                })
+              }
               type="number"
               name="phoneNumber"
               id="phone"
@@ -177,11 +191,13 @@ const handleRoleChange = (e) => {
           </div>
           <div className="w-full relative">
             <input
-            value={state.password}
-            onChange={(e)=>setState({
-              ...state,
-              [e.target.name]:e.target.value
-            })}
+              value={state.password}
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  [e.target.name]: e.target.value,
+                })
+              }
               type="password"
               name="password"
               id="password"
@@ -207,20 +223,19 @@ const handleRoleChange = (e) => {
           </div>
 
           <div className="w-full relative">
-                        <select
-                            onChange={handleRoleChange}
-                            value={state.role}
-                            className="rounded-lg border-gray-300 shadow-sm focus:border-primaryColor focus:ring focus:ring-primaryColor focus:ring-opacity-50"
-                        >
-                            <option value="">Select Role</option>
-                            <option value="coach">Coach</option>
-                            <option value="player">Player</option>
-                        </select>
-                    </div>
-
+            <select
+              onChange={handleRoleChange}
+              value={state.role}
+              className="rounded-lg border-gray-300 shadow-sm focus:border-primaryColor focus:ring focus:ring-primaryColor focus:ring-opacity-50"
+            >
+              <option value="">Select Role</option>
+              <option value="coach">Coach</option>
+              <option value="player">Player</option>
+            </select>
+          </div>
 
           {/* checkbox  */}
-       
+
           <div className="checkbox--holder">
             <input
               onChange={() => setIsAgreed(!isAgreed)}
@@ -236,11 +251,11 @@ const handleRoleChange = (e) => {
           </div>
 
           <button
-          onClick={register}
+            onClick={register}
             className={`submit lg:mt-2.5 ${
               isAgreed
-                ? "pointer-events-auto bg-primaryColor"
-                : "pointer-events-none bg-[#d1d1d1]"
+                ? 'pointer-events-auto bg-primaryColor'
+                : 'pointer-events-none bg-[#d1d1d1]'
             } `}
           >
             Agree and continue
@@ -250,9 +265,9 @@ const handleRoleChange = (e) => {
         {/* instruction text */}
 
         <p className="text-center text-[#0E0E0E] text-base leading-6 mt-12 ">
-          Already have an account?{" "}
-          <Link to={"/login"} className="font-bold">
-            {" "}
+          Already have an account?{' '}
+          <Link to={'/login'} className="font-bold">
+            {' '}
             Login
           </Link>
         </p>
