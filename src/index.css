@@ -12,3 +12,11 @@ body {
   font-family: "SF Pro Display";
   font-weight: 500;
 }
+
+.slick-arrow.slick-prev::before {
+  display: none !important;
+}
+
+.slick-arrow.slick-next::before {
+  display: none !important;
+}
