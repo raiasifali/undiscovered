@@ -3,6 +3,8 @@ import { BASE_URL } from '../../baseurl/baseurl';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 import axios from 'axios';
+import ReactPlayer from 'react-player';
+
 export default function AvailablePlayersRow({
   currentUser,
   setCurrentUser,
@@ -342,25 +344,23 @@ export default function AvailablePlayersRow({
           )}
         </span>
       </div>
-      <div
-        className={`px-[20px] ${
-          Collapsed ? 'opacity-0 h-0 hidden' : 'opacity-100 h-auto flex'
-        }   flex-col gap-[20px] transition-all duration-500 ease-out`}>
-        <p className='lg:text-[16px] text-[14px] font-sfPro'>
-          <span className='flex gap-[10px] flex-col lg:flex-row lg:items-center'>
-            <span className='lg:w-[60%] w-full mb-[6px]'>
-              Jan. 20, 2023 Castle didn't have a great Hoophall, needing 20
-              shots to score 15 points in a loss to powerhouse IMG Academy, but
-              still looked like one of the most intriguing long-term prospects
-              in the class as a 6-6 guard with a 6-9 wingspan, an ideal frame
-              and outstanding court vision and passing creativity off a live
-              dribble.
-            </span>
-            <div className='hidden lg:block video-container mb-8 relative lg:w-[40%] w-[full]'>
-              <video
-                id='videoPlayer2'
-                src={currentVideo}
-                className='rounded-[10px] bg-[rgba(255,255,255,0.40)] w-full h-auto'
+      {player?.article && (
+        <div
+          className={`px-[20px] ${
+            Collapsed ? 'opacity-0 h-0 hidden' : 'opacity-100 h-auto grid'
+          }   grid-cols-1 lg:grid-cols-2 gap-[20px] transition-all duration-500 ease-out`}>
+          <p className='lg:text-[16px] text-[14px] font-sfPro'>
+            {player?.article}
+          </p>
+          <div className='flex gap-[10px] flex-col '>
+            <div className=' video-container mb-8 relative lg:w-[40%] w-[full] rounded-[10px] bg-[rgba(255,255,255,0.40)] overflow-hidden'>
+              <ReactPlayer
+                url={player?.video1}
+                width='100%'
+                height={'200px'}
+                style={{
+                  borderRadius: 8,
+                }}
               />
               <div
                 className='video-overlay absolute inset-0 flex items-center justify-center'
@@ -402,78 +402,58 @@ export default function AvailablePlayersRow({
                 )}
               </div>
             </div>
-          </span>
-          The UConn commit has taken a different pathway than most elite
-          prospects in emerging as a potential top-10 recruit, playing at Newton
-          High School -- a small public school in Georgia -- and Atlanta Xpress
-          on the Under Armour grassroots circuit. That rise was partially fueled
-          by a 42-point performance last month against Duncanville, ESPN's No. 1
-          ranked team, featuring a barrage of difficult pull-up 3-pointers and
-          bully ball finishes in the lane using both hands, highlighting his
-          extremely high upside. While the game comes easily for Castle thanks
-          to his smooth ballhandling, fluidity-changing speeds and ability to
-          make high-level reads operating out of pick-and-roll, he can still
-          become more consistent and efficient with his approach. He plays a
-          very casual style that includes too many live-ball turnovers and
-          defensive lapses and is still finding his way as both a finisher and
-          perimeter shooter. He lacks a degree of explosiveness and doesn't show
-          much emotion on the floor, not communicating with teammates and being
-          feast or famine from possession to possession. Castle will be asked to
-          ramp up his intensity significantly next season under coach Danny
-          Hurley at UConn, which is said to be one of the main reasons he picked
-          the Huskies. With most of UConn's backcourt rotation either graduating
-          or potentially entering the 2023 NBA draft, Castle should be in a
-          strong position to make his case as a one-and-done candidate in the
-          Big East like his significant talent level suggests. -- Jonathan
-          Givony
-        </p>
-        <div className='mt-[6px] lg:hidden block video-container mb-8 relative lg:w-[40%] w-[full]'>
-          <video
-            id='videoPlayer2'
-            src={currentVideo}
-            className='rounded-[10px] bg-[rgba(255,255,255,0.40)] w-full h-auto'
-          />
-          <div
-            className='video-overlay absolute inset-0 flex items-center justify-center'
-            onClick={togglePlayPausePlayer}>
-            {isPlaying2 ? (
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='15'
-                height='18'
-                viewBox='0 0 15 18'
-                fill='none'>
-                <path
-                  fillRule='evenodd'
-                  clipRule='evenodd'
-                  d='M4 2H1C0.447715 2 0 2.44772 0 3V15C0 15.5523 0.447715 16 1 16H4C4.55228 16 5 15.5523 5 15V3C5 2.44772 4.55228 2 4 2ZM14 2H11C10.4477 2 10 2.44772 10 3V15C10 15.5523 10.4477 16 11 16H14C14.5523 16 15 15.5523 15 15V3C15 2.44772 14.5523 2 14 2Z'
-                  stroke='white'
-                  strokeWidth='1.3'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='15'
-                height='18'
-                viewBox='0 0 15 18'
-                fill='none'>
-                <path
-                  fillRule='evenodd'
-                  clipRule='evenodd'
-                  d='M14 8.78738C14 6.67844 3.19057 -0.0682953 1.96437 1.14481C0.73817 2.35792 0.620266 15.1025 1.96437 16.4299C3.30848 17.762 14 10.8963 14 8.78738Z'
-                  stroke='white'
-                  strokeWidth='1.3'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                />
-              </svg>
-            )}
+            <div className=' video-container mb-8 relative lg:w-[40%] w-[full] rounded-[10px] bg-[rgba(255,255,255,0.40)] overflow-hidden'>
+              <ReactPlayer
+                url={player?.video1}
+                width='100%'
+                height={'200px'}
+                style={{
+                  borderRadius: 8,
+                }}
+              />
+              <div
+                className='video-overlay absolute inset-0 flex items-center justify-center'
+                onClick={togglePlayPausePlayer}>
+                {isPlaying2 ? (
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='15'
+                    height='18'
+                    viewBox='0 0 15 18'
+                    fill='none'>
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M4 2H1C0.447715 2 0 2.44772 0 3V15C0 15.5523 0.447715 16 1 16H4C4.55228 16 5 15.5523 5 15V3C5 2.44772 4.55228 2 4 2ZM14 2H11C10.4477 2 10 2.44772 10 3V15C10 15.5523 10.4477 16 11 16H14C14.5523 16 15 15.5523 15 15V3C15 2.44772 14.5523 2 14 2Z'
+                      stroke='white'
+                      strokeWidth='1.3'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='15'
+                    height='18'
+                    viewBox='0 0 15 18'
+                    fill='none'>
+                    <path
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M14 8.78738C14 6.67844 3.19057 -0.0682953 1.96437 1.14481C0.73817 2.35792 0.620266 15.1025 1.96437 16.4299C3.30848 17.762 14 10.8963 14 8.78738Z'
+                      stroke='white'
+                      strokeWidth='1.3'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </svg>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
