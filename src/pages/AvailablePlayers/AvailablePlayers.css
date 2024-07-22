@@ -36,7 +36,7 @@
 .news-wrapper-draft {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 12px;
   width: 100%;
 }
 
@@ -102,7 +102,7 @@
 }
 
 .player-box > :nth-child(even) {
-  background-color: #EAF0F6;
+  background-color: #eaf0f6;
 }
 
 .player-box > :nth-child(odd) {

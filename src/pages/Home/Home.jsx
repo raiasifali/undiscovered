@@ -26,7 +26,7 @@ const Home = () => {
     console.log(response.data);
     setState({
       playersData: response?.data?.playersData,
-      videosData: response?.data?.videosData,
+      videosData: response?.data?.featuredVideosData,
       classPlayers: response?.data?.classPlayers,
       testimonial: response?.data?.testimonial,
     });
