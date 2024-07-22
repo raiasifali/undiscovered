@@ -13,7 +13,7 @@ export default function AvailablePlayersRow({
 }) {
   const [Collapsed, setCollapsed] = useState(true);
   const [isPlaying2, setIsPlaying2] = useState(false);
-
+  console.log(player, 'player player');
   const togglePlayPausePlayer = () => {
     const videoElement = document.getElementById('videoPlayer2');
     if (videoElement.paused) {
@@ -202,16 +202,16 @@ export default function AvailablePlayersRow({
             {player?.auth?.name}
           </p>
         </span>
-        <span className='w-[20%] lg:w-[35%]'>
+        <span className='w-[10%] lg:w-[15%]'>
           <p className='lg:text-[16px] text-[16px]'>{player?.class}</p>
         </span>
-        <span className='w-[20%] lg:w-[35%]'>
+        <span className='w-[10%] lg:w-[15%]'>
           <p className='lg:text-[16px] text-[16px]'>{player?.height}</p>
         </span>
-        <span className='w-[20%] lg:w-[30%] flex gap-[20px] items-center'>
+        <span className='w-[10%] lg:w-[10%] flex gap-[20px] items-center'>
           <p className='lg:text-[16px] text-[14px]'>{player?.position}</p>
         </span>
-        <span className='w-[20%] lg:w-[30%] flex gap-[20px] items-center'>
+        <span className='w-[10%] lg:w-[30%] flex gap-[20px] items-center'>
           <p className='font-sfPro text-[14px] flex items-center gap-[6px]'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -248,9 +248,14 @@ export default function AvailablePlayersRow({
             {player?.location}
           </p>
         </span>
-        <span className='w-[20%] lg:w-[30%] flex gap-[20px] items-center'>
-          <p className='text-black text-[16px] font-[400]'>
-            {player?.institute.universityName}
+        <span className='w-[20%] lg:w-[30%] flex gap-[20px] justify-between'>
+          <p className='text-black text-[16px] font-[400] flex gap-[10px] items-center'>
+            <img
+              src='/Ellipse 11939.png'
+              width={20}
+            />
+
+            <span> {player?.institute.universityName}</span>
           </p>
           <button
             onClick={() =>

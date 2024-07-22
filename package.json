@@ -39,7 +39,8 @@
     "slick-carousel": "^1.8.1",
     "sort-by": "^1.2.0",
     "swiper": "^11.1.4",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "vite-plugin-vercel": "^8.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
