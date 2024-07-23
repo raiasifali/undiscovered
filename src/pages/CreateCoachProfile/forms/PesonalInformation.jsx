@@ -64,7 +64,7 @@ const CoachInformationForm = () => {
               name="position"
               placeholder="Write position"
               value={personalInformation.position}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChange({ ...e, name: 'position' })}
             >
               <option value="new">New </option>
               <option value="old">old </option>

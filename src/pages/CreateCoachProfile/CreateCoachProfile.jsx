@@ -21,14 +21,16 @@ import { BASE_URL } from '../../baseurl/baseurl';
 import toastr from 'toastr';
 import { useNavigate } from 'react-router-dom';
 import 'toastr/build/toastr.min.css';
-import {
-  ProfileCreateContext,
-  ProfileProvider,
-  useProfileContext,
-} from '../../components/context/createProfileContext';
-function CreateProfile({ data }) {
-  const [accomplishments, setAccomplishments] = useState(['']);
+import { useProfileContext } from '../../components/context/createProfileContext';
 
+function CreateProfile({ data }) {
+  const {
+    state: { coach: coachData },
+  } = useProfileContext();
+  const navigate = useNavigate();
+  const [accomplishments, setAccomplishments] = useState(['']);
+  const [loading, setLoading] = useState(false);
+  const localUser = localStorage.getItem('user');
   const [mediaFiles, setMediaFiles] = useState([]);
   const [state, setState] = useState({
     personalInformation: {
@@ -114,11 +116,34 @@ function CreateProfile({ data }) {
     return true;
   }
 
-  const onFormSubmit = async (e) => {};
+  const onFormSubmit = async (e) => {
+    try {
+      setLoading(true);
+      let response = await axios.post(`${BASE_URL}/coach-profile`, {
+        ...coachData,
+        auth: JSON.parse(localUser)._id,
+      });
+
+      if (response.status === 201) {
+        toastr.success('Profile created successfully');
+        navigate('/');
+        setLoading(false);
+      }
+    } catch (error) {
+      if (error?.response?.data?.error) {
+        toastr.error(error.response.data.error);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        toastr.error('Server error, please try again');
+      }
+    }
+  };
   return (
     <div className="progressContainer">
       <StepProgressBar
         startingStep={0}
+        loading={loading}
         onSubmit={onFormSubmit}
         steps={[
           {

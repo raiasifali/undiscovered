@@ -77,7 +77,7 @@ const Navbar = () => {
               <NavLink
                 onClick={turnOffNav}
                 to={
-                  JSON.parse(user).role === 'coach'
+                  JSON.parse(user)?.role === 'coach'
                     ? '/create-coach-profile'
                     : '/create-player-profile'
                 }
@@ -90,12 +90,17 @@ const Navbar = () => {
             <NavLink onClick={turnOffNav} to={'/available-players'}>
               Available Players
             </NavLink>
-            <NavLink onClick={turnOffNav} to={'/favourite-players'}>
-              Favourite Players
-            </NavLink>
-            <NavLink onClick={turnOffNav} to={'/watch-list'}>
-              Watch list
-            </NavLink>
+            {JSON.parse(user)?.role === 'coach' ? (
+              <>
+                <NavLink onClick={turnOffNav} to={'/favourite-players'}>
+                  Favourite Players
+                </NavLink>
+
+                <NavLink onClick={turnOffNav} to={'/watch-list'}>
+                  Watch list
+                </NavLink>
+              </>
+            ) : null}
 
             <NavLink onClick={turnOffNav} to={'/newsFeed'}>
               NewsFeed

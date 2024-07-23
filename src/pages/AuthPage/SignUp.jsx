@@ -225,7 +225,7 @@ const SignUp = () => {
           <div className="w-full relative">
             <select
               onChange={handleRoleChange}
-              value={state.role}
+              value={state?.role}
               className="rounded-lg border-gray-300 shadow-sm focus:border-primaryColor focus:ring focus:ring-primaryColor focus:ring-opacity-50"
             >
               <option value="">Select Role</option>
