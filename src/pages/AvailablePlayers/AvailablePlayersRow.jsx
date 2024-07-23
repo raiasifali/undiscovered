@@ -353,7 +353,7 @@ export default function AvailablePlayersRow({
             {player?.article}
           </p>
           <div className='flex gap-[10px] flex-col '>
-            <div className=' video-container mb-8 relative lg:w-[40%] w-[full] rounded-[10px] bg-[rgba(255,255,255,0.40)] overflow-hidden'>
+            <div className=' video-container mb-8 relative w-[full] rounded-[10px] bg-[rgba(255,255,255,0.40)] overflow-hidden'>
               <ReactPlayer
                 url={player?.video1}
                 width='100%'
@@ -402,7 +402,7 @@ export default function AvailablePlayersRow({
                 )}
               </div>
             </div>
-            <div className=' video-container mb-8 relative lg:w-[40%] w-[full] rounded-[10px] bg-[rgba(255,255,255,0.40)] overflow-hidden'>
+            <div className=' video-container mb-8 relative w-[full] rounded-[10px] bg-[rgba(255,255,255,0.40)] overflow-hidden'>
               <ReactPlayer
                 url={player?.video1}
                 width='100%'

@@ -21,6 +21,8 @@ import { BASE_URL } from '../baseurl/baseurl';
 import { ProfileProvider } from '../components/context/createProfileContext';
 import Newspage from '../pages/Newspage/Newspage';
 import Success from '../pages/Success/Success';
+import FavouritePlayers from '../pages/favouritePlayers';
+import WatchList from '../pages/watchList';
 
 // let data = localStorage.getItem('profile')?JSON.parse(localStorage.getItem('profile')):{
 //   about: '',
@@ -190,6 +192,14 @@ const router = createBrowserRouter([
       {
         path: '/success',
         element: <Success />,
+      },
+      {
+        path: '/favourite-players',
+        element: <FavouritePlayers />,
+      },
+      {
+        path: '/watch-list',
+        element: <WatchList />,
       },
     ],
   },
