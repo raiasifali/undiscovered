@@ -37,6 +37,37 @@ export default function AvailablePlayers() {
   const [videos, setVideos] = useState([]);
   const [news, setNews] = useState([]);
   const [videoDurations, setVideoDurations] = useState({});
+  // news feed
+  const [topNews, setTopNews] = useState([]);
+  const [highlights, setHighlights] = useState([]);
+  const [interviews, setInterviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [firstItem, ...remainingItems] = highlights;
+
+  // getNewFeed
+  const getNewFeed = async () => {
+    try {
+      setLoading(true); // Set loading to true before the request
+      let response = await axios.get(`${BASE_URL}/getNewsFeed`);
+      const { topNews, highlights, interviews } = response.data;
+      setTopNews(topNews);
+      setHighlights(highlights);
+      setInterviews(interviews);
+    } catch (error) {
+      if (error?.response && error?.response?.data) {
+        toastr.error(error?.response?.data?.error);
+      } else {
+        toastr.error('Server error please try again');
+      }
+    } finally {
+      setLoading(false); // Set loading to false after the request completes
+    }
+  };
+
+  useEffect(() => {
+    getNewFeed();
+  }, []);
+
   const handleVideoClick = (src) => {
     setCurrentVideo(src);
   };
@@ -159,19 +190,24 @@ export default function AvailablePlayers() {
               stroke-linejoin='round'></path>
           </svg>
         </div>
-        <div className='relative w-full h-[280px] lg:h-[400px]  bg-black rounded-[20px] overflow-hidden mt-[30px] mb-12 lg:mb-20 '>
-          <img
-            className='w-full h-full object-cover opacity-40'
-            src={banner}
-            alt=''
-          />
+
+        <div className='relative w-full h-[280px] lg:h-[400px] bg-black rounded-[20px] overflow-hidden mt-[30px] mb-12 lg:mb-20 '>
+          {loading ? (
+            <h3 className='text-white w-full h-full flex items-center justify-center'>
+              Loading...
+            </h3>
+          ) : (
+            <img
+              className='w-full h-full object-cover opacity-40'
+              src={topNews?.[0]?.banner}
+              alt=''
+            />
+          )}
           <div className='absolute bottom-[10%] left-10 flex flex-col gap-4 max-w-[400px] z-[50]'>
             <button className='text-sm leading-6 text-[#fff] py-1 px-6 bg-primaryColor rounded-[30px] w-fit'>
               Follow
             </button>
-            <h4 className='text-[18px] text-white'>
-              The highlights that make Zach Edey an intriguing NBA prospect
-            </h4>
+            <h4 className='text-[18px] text-white'>{topNews?.[0]?.title}</h4>
           </div>
         </div>
         {/* trending */}
@@ -181,28 +217,29 @@ export default function AvailablePlayers() {
           </h3>
           {/* <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4'> */}
           <Slider {...settings}>
-            {Array.from(new Array(5)).map((item, index) => (
+            {topNews.map((item, index) => (
               <div
-                key={Math.random()}
-                onClick={() =>
-                  navigate('/news-article/668ecfe57dd7cd360cb43cce')
-                }
-                className={`bg-[#fff] p-2 rounded-xl shadow-[0px_2px_10px_0px_rgba(0,0,0,0.06)] relative h-fit w-full mb-4 cursor-pointer`}>
-                {/* img wrapper */}
-                <div className=' w-full h-[150px] rounded-xl overflow-hidden mb-1.5'>
-                  <img
-                    className='w-full h-full object-cover'
-                    src={banner}
-                    alt=''
-                  />
+                className='h-full px-2'
+                key={Math.random()}>
+                <div
+                  onClick={() => navigate(`/news-article/${item?._id}`)}
+                  className={`bg-[#fff] p-2 rounded-xl shadow-[0px_2px_10px_0px_rgba(0,0,0,0.06)] relative h-full w-full mb-4 cursor-pointer`}>
+                  {/* img wrapper */}
+                  <div className=' w-full h-[150px] rounded-xl overflow-hidden mb-1.5'>
+                    <img
+                      className='w-full h-full object-cover'
+                      src={item?.banner}
+                      alt=''
+                    />
+                  </div>
+                  <p className='text-[#000] text-base leading-6 mt-[15px] mb-[10px]'>
+                    {' '}
+                    {formatDate(item?.createdAt)}{' '}
+                  </p>
+                  <h3 className='text-[#000] text-[18px] font-medium leading-normal mb-[10px]'>
+                    {item?.title}
+                  </h3>
                 </div>
-                <p className='text-[#000] text-base leading-6 mt-[15px] mb-[10px]'>
-                  {' '}
-                  {formatDate('2024-07-14T14:14:54.150+00:00')}{' '}
-                </p>
-                <h3 className='text-[#000] text-[18px] font-medium leading-normal mb-[10px]'>
-                  3-Point Revolution: How the Long-Range Shot Changed the Game
-                </h3>
               </div>
             ))}
           </Slider>
@@ -215,46 +252,43 @@ export default function AvailablePlayers() {
           </h3>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
             <div
-              onClick={() => navigate('/news-article/668ecfe57dd7cd360cb43cce')}
+              onClick={() => navigate(`/news-article/${item?._id}`)}
               className={`bg-[#fff] p-2 rounded-xl shadow-[0px_2px_10px_0px_rgba(0,0,0,0.06)] relative h-fit w-full cursor-pointer `}>
               {/* img wrapper */}
               <div className=' w-full h-[150px] rounded-xl overflow-hidden mb-1.5'>
                 <img
                   className='w-full h-full object-cover'
-                  src={banner}
+                  src={firstItem?.banner}
                   alt=''
                 />
               </div>
               <p className='text-[#000] text-base leading-6 mt-[15px] mb-[10px]'>
                 {' '}
-                {formatDate('2024-07-14T14:14:54.150+00:00')}{' '}
+                {formatDate(firstItem?.createdAt)}{' '}
               </p>
               <h3 className='text-[#000] text-[18px] font-medium leading-normal mb-[10px]'>
-                3-Point Revolution: How the Long-Range Shot Changed the Game
+                {firstItem?.title}
               </h3>
             </div>
             <div className='flex flex-col gap-4'>
-              {Array.from(new Array(2)).map((item, index) => (
+              {remainingItems.map((item, index) => (
                 <div
                   className={`bg-[#fff] p-2 rounded-xl shadow-[0px_2px_10px_0px_rgba(0,0,0,0.06)] relative h-fit w-full flex items-center gap-4`}>
                   {/* img wrapper */}
-                  <div className=' max-w-[87px] h-full rounded-xl overflow-hidden mb-1.5'>
+                  <div className=' max-w-[87px] h-full w-full rounded-xl overflow-hidden mb-1.5'>
                     <img
                       className='w-full h-full object-cover'
-                      src={banner}
-                      alt=''
+                      src={item?.banner}
+                      alt={item?.title}
                     />
                   </div>
                   <div>
                     <a
-                      href='/news-article/668ecfe57dd7cd360cb43cce'
+                      href={`/news-article/${item?._id}`}
                       className='font-[16px] font-sfPro mb-1'>
-                      3-Point Revolution: How the Long-Range
+                      {item?.title}
                     </a>
-                    <p className='text-[14px]'>
-                      Basketball, often referred to as
-                      <br /> "the beautiful game,"...
-                    </p>
+                    <p className='text-[14px]'>{item?.description}</p>
                   </div>
                 </div>
               ))}

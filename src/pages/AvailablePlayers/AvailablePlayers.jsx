@@ -13,8 +13,6 @@ function getSubscription() {
 
 export default function AvailablePlayers() {
   const isSubscription = JSON.parse(getSubscription())?.name;
-  console.log(isSubscription, 'user subscription');
-
   const navigate = useNavigate();
   const [currentVideo, setCurrentVideo] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -24,6 +22,8 @@ export default function AvailablePlayers() {
   const [currentUser, setCurrentUser] = useState('');
   const [videoDurations, setVideoDurations] = useState({});
   const [selectedTab, setSelectedTab] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   const [selectedPosition, setSelectedPosition] = useState('');
   const positions = ['ALL', 'PG', 'SG', 'SF', 'PF', 'C'];
 
@@ -45,6 +45,7 @@ export default function AvailablePlayers() {
   };
   useEffect(() => {
     setCurrentUser(JSON.parse(localStorage.getItem('user')));
+    setLoading(true);
     getAvailabilityPlayer();
   }, []);
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function AvailablePlayers() {
     try {
       let response = await axios.get(`${BASE_URL}/getAvalabilityPlayers`);
       console.log(response.data);
+      setLoading(false);
       setPlayer(response.data.players);
       setVideos(response.data.videos);
       setCurrentVideo(response.data.videos[0]?.video);
@@ -84,49 +86,46 @@ export default function AvailablePlayers() {
   };
 
   return (
-    <div className="mainContainer">
-      <div className="flex flex-col gap-[10px]">
-        <div className="flex justify-between">
-          <div className="flex justify-center items-center gap-[10px] lg:gap-[30px] w-full">
-            <div className="w-[24px] h-[24px]" onClick={() => navigate(-1)}>
+    <div className='mainContainer'>
+      <div className='flex flex-col gap-[10px]'>
+        <div className='flex justify-between'>
+          <div className='flex justify-center items-center gap-[10px] lg:gap-[30px] w-full'>
+            <div
+              className='w-[24px] h-[24px]'
+              onClick={() => navigate(-1)}>
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="17"
-                height="15"
-                viewBox="0 0 17 15"
-                fill="none"
-                class="w-full h-full"
-              >
+                xmlns='http://www.w3.org/2000/svg'
+                width='17'
+                height='15'
+                viewBox='0 0 17 15'
+                fill='none'
+                class='w-full h-full'>
                 <path
-                  d="M1.25 7.27441L16.25 7.27441"
-                  stroke="#130F26"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
+                  d='M1.25 7.27441L16.25 7.27441'
+                  stroke='#130F26'
+                  stroke-width='1.5'
+                  stroke-linecap='round'
+                  stroke-linejoin='round'></path>
                 <path
-                  d="M7.2998 13.299L1.2498 7.275L7.2998 1.25"
-                  stroke="#130F26"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
+                  d='M7.2998 13.299L1.2498 7.275L7.2998 1.25'
+                  stroke='#130F26'
+                  stroke-width='1.5'
+                  stroke-linecap='round'
+                  stroke-linejoin='round'></path>
               </svg>
             </div>
             <Tabs
               selectedIndex={positions.indexOf(selectedPosition)}
               onSelect={(index) => handleTabClick(positions[index])}
-              className="w-full"
-            >
-              <TabList className="flex gap-4 pos-tabs">
+              className='w-full'>
+              <TabList className='flex gap-4 pos-tabs'>
                 <Tab
                   className={`text-center py-2 px-4 cursor-pointer ${
                     selectedPosition === ''
                       ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-black'
                   }`}
-                  onClick={() => handleTabClick('All')}
-                >
+                  onClick={() => handleTabClick('All')}>
                   ALL
                 </Tab>
                 <Tab
@@ -135,8 +134,7 @@ export default function AvailablePlayers() {
                       ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-black'
                   }`}
-                  onClick={() => handleTabClick('PG')}
-                >
+                  onClick={() => handleTabClick('PG')}>
                   PG
                 </Tab>
                 <Tab
@@ -145,8 +143,7 @@ export default function AvailablePlayers() {
                       ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-black'
                   }`}
-                  onClick={() => handleTabClick('SG')}
-                >
+                  onClick={() => handleTabClick('SG')}>
                   SG
                 </Tab>
                 <Tab
@@ -155,8 +152,7 @@ export default function AvailablePlayers() {
                       ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-black'
                   }`}
-                  onClick={() => handleTabClick('SF')}
-                >
+                  onClick={() => handleTabClick('SF')}>
                   SF
                 </Tab>
                 <Tab
@@ -165,8 +161,7 @@ export default function AvailablePlayers() {
                       ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-black'
                   }`}
-                  onClick={() => handleTabClick('PF')}
-                >
+                  onClick={() => handleTabClick('PF')}>
                   PF
                 </Tab>
                 <Tab
@@ -175,131 +170,148 @@ export default function AvailablePlayers() {
                       ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-black'
                   }`}
-                  onClick={() => handleTabClick('C')}
-                >
+                  onClick={() => handleTabClick('C')}>
                   C
                 </Tab>
               </TabList>
             </Tabs>
           </div>
         </div>
-        <div className=" pt-12 lg:pt-[60px] mb-8 lg:mb-[115px]  w-full  ">
-          <div className="w-full">
-            <div className="w-full border-b-[#DBDBDB] border-b-[2px] flex lg:hidden items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
-              <p className=" w-[40%] lg:w-[35%]">Player </p>
-              <p className=" w-[20%] lg:w-[35%]">Class</p>
-              <p className=" w-[20%] lg:w-[30%]">Height</p>
-              <p className=" w-[20%] lg:w-[30%]">Position</p>
+        <div className=' pt-12 lg:pt-[60px] mb-8 lg:mb-[115px]  w-full  '>
+          <div className='w-full'>
+            <div className='w-full border-b-[#DBDBDB] border-b-[2px] flex lg:hidden items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 '>
+              <p className=' w-[40%] lg:w-[35%]'>Player </p>
+              <p className=' w-[20%] lg:w-[35%]'>Class</p>
+              <p className=' w-[20%] lg:w-[30%]'>Height</p>
+              <p className=' w-[20%] lg:w-[30%]'>Position</p>
             </div>
-            <div className="w-full border-b-[#DBDBDB] border-b-[2px] hidden lg:flex items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
-              <p className=" w-[40%] lg:w-[35%]">Player </p>
-              <p className=" w-[10%] lg:w-[15%]">Class</p>
-              <p className=" w-[10%] lg:w-[15%]">Height</p>
-              <p className="w-[10%] lg:w-[12%] ">Position</p>
-              <p className=" w-[10%] lg:w-[30%]">Location</p>
-              <p className=" w-[20%] lg:w-[30%]">College</p>
+            <div className='w-full border-b-[#DBDBDB] border-b-[2px] hidden lg:flex items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 '>
+              <p className=' w-[40%] lg:w-[35%]'>Player </p>
+              <p className=' w-[10%] lg:w-[15%]'>Class</p>
+              <p className=' w-[10%] lg:w-[15%]'>Height</p>
+              <p className='w-[10%] lg:w-[12%] '>Position</p>
+              <p className=' w-[10%] lg:w-[30%]'>Location</p>
+              <p className=' w-[20%] lg:w-[30%]'>College</p>
             </div>
-            <div className="player-box">
-              {players
-                ?.filter(
-                  (player) =>
-                    selectedPosition === '' ||
-                    player?.position
-                      ?.toLowerCase()
-                      .startsWith(selectedPosition.toLowerCase())
-                )
-                .map((player, index) => (
-                  <AvailablePlayersRow
-                    key={index.toString()}
-                    player={player}
-                    currentVideo={currentVideo}
-                    isSubscription={isSubscription}
-                  />
-                ))}
+            <div className='player-box'>
+              {loading ? (
+                <div className='flex items-center justify-center min-h-80'>
+                  <div role='status'>
+                    <svg
+                      aria-hidden='true'
+                      className='w-20 h-20 text-gray-200 animate-spin  fill-[#FF3333]'
+                      viewBox='0 0 100 101'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'>
+                      <path
+                        d='M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z'
+                        fill='currentColor'
+                      />
+                      <path
+                        d='M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z'
+                        fill='currentFill'
+                      />
+                    </svg>
+                    <span className='sr-only'>Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                players
+                  ?.filter(
+                    (player) =>
+                      selectedPosition === '' ||
+                      player?.position
+                        ?.toLowerCase()
+                        .startsWith(selectedPosition.toLowerCase())
+                  )
+                  .map((player, index) => (
+                    <AvailablePlayersRow
+                      key={index.toString()}
+                      player={player}
+                      currentVideo={currentVideo}
+                      isSubscription={isSubscription}
+                    />
+                  ))
+              )}
             </div>
           </div>
         </div>
       </div>
       <div>
         {isSubscription === 'Enterprise' ? (
-          <div className="videos-section">
-            <h1 className="text-[18px] mb-[25px]">Draft Videos</h1>
-            <div className="video-container mb-[19px] relative">
+          <div className='videos-section'>
+            <h1 className='text-[18px] mb-[25px]'>Draft Videos</h1>
+            <div className='video-container mb-[19px] relative'>
               <video
                 controls
-                id="videoPlayer"
+                id='videoPlayer'
                 src={currentVideo}
-                className="rounded-[10px] bg-[rgba(255,255,255,0.40)] w-full h-auto"
+                className='rounded-[10px] bg-[rgba(255,255,255,0.40)] w-full h-auto'
               />
               <div
-                className="video-overlay absolute inset-0 flex items-center justify-center"
-                onClick={togglePlayPause}
-              >
+                className='video-overlay absolute inset-0 flex items-center justify-center'
+                onClick={togglePlayPause}>
                 {isPlaying ? (
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="18"
-                    viewBox="0 0 15 18"
-                    fill="none"
-                  >
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='15'
+                    height='18'
+                    viewBox='0 0 15 18'
+                    fill='none'>
                     <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M4 2H1C0.447715 2 0 2.44772 0 3V15C0 15.5523 0.447715 16 1 16H4C4.55228 16 5 15.5523 5 15V3C5 2.44772 4.55228 2 4 2ZM14 2H11C10.4477 2 10 2.44772 10 3V15C10 15.5523 10.4477 16 11 16H14C14.5523 16 15 15.5523 15 15V3C15 2.44772 14.5523 2 14 2Z"
-                      stroke="white"
-                      strokeWidth="1.3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M4 2H1C0.447715 2 0 2.44772 0 3V15C0 15.5523 0.447715 16 1 16H4C4.55228 16 5 15.5523 5 15V3C5 2.44772 4.55228 2 4 2ZM14 2H11C10.4477 2 10 2.44772 10 3V15C10 15.5523 10.4477 16 11 16H14C14.5523 16 15 15.5523 15 15V3C15 2.44772 14.5523 2 14 2Z'
+                      stroke='white'
+                      strokeWidth='1.3'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
                     />
                   </svg>
                 ) : (
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="18"
-                    viewBox="0 0 15 18"
-                    fill="none"
-                  >
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='15'
+                    height='18'
+                    viewBox='0 0 15 18'
+                    fill='none'>
                     <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M14 8.78738C14 6.67844 3.19057 -0.0682953 1.96437 1.14481C0.73817 2.35792 0.620266 15.1025 1.96437 16.4299C3.30848 17.762 14 10.8963 14 8.78738Z"
-                      stroke="white"
-                      strokeWidth="1.3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      fillRule='evenodd'
+                      clipRule='evenodd'
+                      d='M14 8.78738C14 6.67844 3.19057 -0.0682953 1.96437 1.14481C0.73817 2.35792 0.620266 15.1025 1.96437 16.4299C3.30848 17.762 14 10.8963 14 8.78738Z'
+                      stroke='white'
+                      strokeWidth='1.3'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
                     />
                   </svg>
                 )}
               </div>
             </div>
-            <div className="video-list">
+            <div className='video-list'>
               {videos?.map((video, index) => (
                 <div
                   key={index}
-                  className="video-item flex items-center gap-[17px] mb-4 cursor-pointer"
-                  onClick={() => handleVideoClick(video?.video)}
-                >
+                  className='video-item flex items-center gap-[17px] mb-4 cursor-pointer'
+                  onClick={() => handleVideoClick(video?.video)}>
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24px"
-                    height="24px"
-                    viewBox="0 0 18 18"
-                    fill="none"
-                  >
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='24px'
+                    height='24px'
+                    viewBox='0 0 18 18'
+                    fill='none'>
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0.666992 9.00515C0.666992 4.40554 4.40734 0.666992 9.00033 0.666992C13.5933 0.666992 17.3337 4.40554 17.3337 9.00515C17.3337 13.5951 13.5933 17.3337 9.00033 17.3337C4.40734 17.3337 0.666992 13.5951 0.666992 9.00515ZM12.057 9.84853C12.1454 9.76009 12.258 9.62342 12.2822 9.59126C12.4109 9.42242 12.4752 9.21338 12.4752 9.00515C12.4752 8.77119 12.4028 8.55411 12.2661 8.37724C12.2549 8.36603 12.2329 8.34215 12.2043 8.31102C12.1508 8.25278 12.074 8.16919 12.0006 8.09584C11.3411 7.38833 9.61969 6.23059 8.71879 5.87683C8.58205 5.82136 8.23617 5.69996 8.05116 5.69192C7.8742 5.69192 7.70528 5.73212 7.54441 5.81251C7.34331 5.92507 7.18244 6.10195 7.09396 6.31099C7.03765 6.4557 6.94917 6.88986 6.94917 6.8979C6.86069 7.37225 6.81242 8.14408 6.81242 8.99631C6.81242 9.80914 6.86069 10.548 6.93308 11.0304C6.93507 11.0324 6.94199 11.0669 6.95274 11.1205C6.98542 11.2834 7.0535 11.6229 7.12613 11.762C7.30309 12.0997 7.64897 12.3087 8.01899 12.3087H8.05116C8.29248 12.3007 8.79923 12.0917 8.79923 12.0836C9.65187 11.7299 11.333 10.6284 12.0087 9.89677L12.057 9.84853Z"
-                      fill="#130F26"
+                      fill-rule='evenodd'
+                      clip-rule='evenodd'
+                      d='M0.666992 9.00515C0.666992 4.40554 4.40734 0.666992 9.00033 0.666992C13.5933 0.666992 17.3337 4.40554 17.3337 9.00515C17.3337 13.5951 13.5933 17.3337 9.00033 17.3337C4.40734 17.3337 0.666992 13.5951 0.666992 9.00515ZM12.057 9.84853C12.1454 9.76009 12.258 9.62342 12.2822 9.59126C12.4109 9.42242 12.4752 9.21338 12.4752 9.00515C12.4752 8.77119 12.4028 8.55411 12.2661 8.37724C12.2549 8.36603 12.2329 8.34215 12.2043 8.31102C12.1508 8.25278 12.074 8.16919 12.0006 8.09584C11.3411 7.38833 9.61969 6.23059 8.71879 5.87683C8.58205 5.82136 8.23617 5.69996 8.05116 5.69192C7.8742 5.69192 7.70528 5.73212 7.54441 5.81251C7.34331 5.92507 7.18244 6.10195 7.09396 6.31099C7.03765 6.4557 6.94917 6.88986 6.94917 6.8979C6.86069 7.37225 6.81242 8.14408 6.81242 8.99631C6.81242 9.80914 6.86069 10.548 6.93308 11.0304C6.93507 11.0324 6.94199 11.0669 6.95274 11.1205C6.98542 11.2834 7.0535 11.6229 7.12613 11.762C7.30309 12.0997 7.64897 12.3087 8.01899 12.3087H8.05116C8.29248 12.3007 8.79923 12.0917 8.79923 12.0836C9.65187 11.7299 11.333 10.6284 12.0087 9.89677L12.057 9.84853Z'
+                      fill='#130F26'
                     />
                   </svg>
-                  <div className="video-details">
-                    <p className="video-title font-semibold text-[14px]">
+                  <div className='video-details'>
+                    <p className='video-title font-semibold text-[14px]'>
                       {video?.title}
                     </p>
-                    <p className="video-duration text-gray-500 text-[12px]">
+                    <p className='video-duration text-gray-500 text-[12px]'>
                       {videoDurations[video._id]
                         ? `${Math.floor(
                             videoDurations[video._id] / 60
@@ -314,17 +326,17 @@ export default function AvailablePlayers() {
             </div>
           </div>
         ) : (
-          <h5 className="h-80 text-center flex items-center justify-center">
+          <h5 className='h-80 text-center flex items-center justify-center'>
             Upgrade your plan to see Videos{' '}
           </h5>
         )}
         {isSubscription === 'Professional' ||
         isSubscription === 'Enterprise' ? (
-          <div className="news-draft  mt-5 pt-5 mb-[40px]">
-            <h2 className="text-[18px] font-sfPro mb-[10px] font-[500]">
+          <div className='news-draft  mt-5 pt-5 mb-[40px]'>
+            <h2 className='text-[18px] font-sfPro mb-[10px] font-[500]'>
               Draft News
             </h2>
-            <div className="news-wrapper-draft ">
+            <div className='news-wrapper-draft '>
               {/* <div className='news-box-draft'>
                             <div className='draft-cont'>
                                 <h2 className='font-[16px] font-sfPro'>
@@ -343,17 +355,19 @@ export default function AvailablePlayers() {
                 return (
                   <Link
                     to={`/news-article/${val?._id}`}
-                    className="p-2 shadow-lg rounded-md"
-                  >
-                    <div className="news-box-draft">
-                      <div className="draft-cont">
-                        <h2 className="font-[16px] font-sfPro">{val?.title}</h2>
-                        <p className="text-[14px] font-normal">
+                    className='p-2 shadow-lg rounded-md'>
+                    <div className='news-box-draft'>
+                      <div className='draft-cont'>
+                        <h2 className='font-[16px] font-sfPro'>{val?.title}</h2>
+                        <p className='text-[14px] font-normal'>
                           {val?.description}
                         </p>
                       </div>
-                      <span className="draft-image">
-                        <img src={val?.banner} alt="draft" />
+                      <span className='draft-image'>
+                        <img
+                          src={val?.banner}
+                          alt='draft'
+                        />
                       </span>
                     </div>
                   </Link>
@@ -362,7 +376,7 @@ export default function AvailablePlayers() {
             </div>
           </div>
         ) : (
-          <h5 className="text-center flex items-center justify-center h-40">
+          <h5 className='text-center flex items-center justify-center h-40'>
             Upgrade your plan to see an article{' '}
           </h5>
         )}

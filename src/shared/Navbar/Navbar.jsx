@@ -90,6 +90,12 @@ const Navbar = () => {
             <NavLink onClick={turnOffNav} to={'/available-players'}>
               Available Players
             </NavLink>
+            <NavLink onClick={turnOffNav} to={'/favourite-players'}>
+              Favourite Players
+            </NavLink>
+            <NavLink onClick={turnOffNav} to={'/watch-list'}>
+              Watch list
+            </NavLink>
 
             <NavLink onClick={turnOffNav} to={'/newsFeed'}>
               NewsFeed

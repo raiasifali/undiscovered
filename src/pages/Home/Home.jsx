@@ -55,40 +55,39 @@ const Home = () => {
       <LaunchEvent />
 
       {/* get notification */}
-      <form className="flex items-center mt-[40px] gap-4 flex-col lg:flex-row ">
-        <div className=" w-full lg:w-[315px]">
+      <form className='flex items-center mt-[40px] gap-4 flex-col lg:flex-row '>
+        <div className=' w-full lg:w-[315px]'>
           <input
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            className="w-full py-4 pl-6 rounded-[30px] bg-[#F8FAFC] focus:outline-none text-base placeholder:text-[#818181] text-[#000] "
-            type="email"
-            placeholder="Subscribe to get Notification"
+            className='w-full py-4 pl-6 rounded-[30px] bg-[#F8FAFC] focus:outline-none text-base placeholder:text-[#818181] text-[#000] '
+            type='email'
+            placeholder='Subscribe to get Notification'
             required
           />
         </div>
         <button
           onClick={subscribeMail}
-          className=" px-6 py-3 lg:py-4 bg-primaryColor rounded-[30px] text-base font-medium text-[#fff] "
-        >
+          className=' px-6 py-3 lg:py-4 bg-primaryColor rounded-[30px] text-base font-medium text-[#fff] '>
           Subscribe
         </button>
       </form>
 
       {/* featured area */}
-      <div className="flex items-center gap-4 lg:gap-7 mt-5 lg:mt-[60px] flex-col lg:flex-row">
+      <div className='flex items-center gap-4 lg:gap-7 mt-5 lg:mt-[60px] flex-col lg:flex-row'>
         <FeaturedBox
           text={'COACHES'}
           subtext={'Coaches Find and recruit players'}
           bgImg={coach}
-          type="coach"
+          type='coach'
         />
         <FeaturedBox
           text={'PLAYERS'}
           subtext={'Players - Find your team'}
           bgImg={player}
-          type="player"
+          type='player'
         />
       </div>
 
@@ -120,7 +119,10 @@ const Home = () => {
       />
 
       {/* review area */}
-      <ReviewArea reviews={state?.testimonial} loading={loading} />
+      <ReviewArea
+        reviews={state?.testimonial}
+        loading={loading}
+      />
     </div>
   );
 };
