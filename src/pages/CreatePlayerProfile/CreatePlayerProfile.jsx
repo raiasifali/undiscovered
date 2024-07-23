@@ -429,6 +429,8 @@ function CreateProfile({ data }) {
     formdata.append('playerClass', state.personalInformation.playerClass);
     formdata.append('position', state.personalInformation.position);
     formdata.append('socialLinks', JSON.stringify(contactdetails));
+    formdata.append('uploadVideos', JSON.stringify(state.uploadVideos));
+    formdata.append('videoLinks', JSON.stringify(state.videoLinks));
     formdata.append('starRating', '1');
     // formdata.append('stats',data.stats)
     formdata.append('universityName', state.personalInformation.universityName);
@@ -458,7 +460,7 @@ function CreateProfile({ data }) {
 
     try {
       let response = await axios.post(
-        `${BASE_URL}/create-profile`,
+        `${BASE_URL}/create-player-profile`,
         formdata,
         headers
       );

@@ -14,7 +14,8 @@ import Terms from '../pages/Terms/Terms';
 import Privacy from '../pages/Privacy/Privacy';
 import ForgetPassword from '../pages/AuthPage/ForgetPassword';
 import ChangePassword from '../pages/AuthPage/ChangePassword';
-import CreateProfile from '../pages/CreateProfile/CreateProfile';
+import CreatePlayerProfile from '../pages/CreatePlayerProfile/CreatePlayerProfile';
+import CreateCoachProfile from '../pages/CreateCoachProfile/CreateCoachProfile';
 import AvailablePlayers from '../pages/AvailablePlayers/AvailablePlayers';
 import axios from 'axios';
 import { BASE_URL } from '../baseurl/baseurl';
@@ -176,8 +177,12 @@ const router = createBrowserRouter([
         element: <Privacy />,
       },
       {
-        path: '/create-profile',
-        element: <CreateProfile data={data} />,
+        path: '/create-player-profile',
+        element: <CreatePlayerProfile data={data} />,
+      },
+      {
+        path: '/create-coach-profile',
+        element: <CreateCoachProfile data={data} />,
       },
       {
         path: '/available-players',
