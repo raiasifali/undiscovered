@@ -298,7 +298,7 @@ const PlayerRow = ({ player, user, reloadData }) => {
         <Collapse isOpened={isCollapsed}>
           {/* teams wrapper */}
           <div className="flex items-center justify-between w-full">
-            <div className="pl-[10px] flex items-center gap-[6px] lg:hidden w-[100%]">
+            <div className=" flex items-center gap-[6px] lg:hidden w-[100%]">
               <div className="overflow-hidden">
                 <img
                   className="w-[40px] h-[37px]  object-cover"
@@ -320,7 +320,7 @@ const PlayerRow = ({ player, user, reloadData }) => {
               </div>
             </div>
           </div>
-          <div className="flex relative my-[18px] gap-[25px] w-full ml-[45px]">
+          <div className="flex items-center lg:justify-center relative my-[18px] gap-[25px] w-full ">
             {player?.profile?.socialLinks?.find(
               (u) => u?.social_type == 'facebook'
             ) ? (
@@ -366,24 +366,15 @@ const PlayerRow = ({ player, user, reloadData }) => {
                 }
               >
                 <svg
-                  width="35"
-                  height="36"
-                  viewBox="0 0 35 36"
-                  fill="none"
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 512 512"
+                  height="1.5em"
+                  width="1.5em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <rect
-                    x="0.150391"
-                    y="0.757812"
-                    width="34"
-                    height="34.4"
-                    rx="17"
-                    fill="transparent"
-                  />
-                  <path
-                    d="M29.1504 10.5578C28.2504 10.9578 27.3504 11.2578 26.3504 11.3578C27.3504 10.7578 28.1504 9.75781 28.5504 8.65781C27.5504 9.25781 26.5504 9.65781 25.4504 9.85781C24.5504 8.85781 23.2504 8.25781 21.8504 8.25781C19.1504 8.25781 16.9504 10.4578 16.9504 13.1578C16.9504 13.5578 16.9504 13.9578 17.0504 14.2578C12.8504 14.0578 9.25039 12.0578 6.85039 9.05781C6.35039 9.85781 6.15039 10.6578 6.15039 11.5578C6.15039 13.2578 7.05039 14.7578 8.35039 15.6578C7.55039 15.6578 6.75039 15.4578 6.15039 15.0578C6.15039 15.0578 6.15039 15.0578 6.15039 15.1578C6.15039 17.5578 7.85039 19.5578 10.0504 19.9578C9.65039 20.0578 9.25039 20.1578 8.75039 20.1578C8.45039 20.1578 8.15039 20.1578 7.85039 20.0578C8.45039 22.0578 10.2504 23.4578 12.4504 23.4578C10.7504 24.7578 8.65039 25.5578 6.35039 25.5578C5.95039 25.5578 5.55039 25.5578 5.15039 25.4578C7.35039 26.8578 9.95039 27.6578 12.6504 27.6578C21.7504 27.6578 26.6504 20.1578 26.6504 13.6578C26.6504 13.4578 26.6504 13.2578 26.6504 13.0578C27.6504 12.3578 28.4504 11.4578 29.1504 10.5578Z"
-                    fill="#11192E"
-                  />
+                  <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
                 </svg>
               </a>
             ) : (
@@ -449,7 +440,7 @@ const PlayerRow = ({ player, user, reloadData }) => {
                 : 'Follow'}
             </span>
           </div>
-          <div className="w-full lg:ml-[60px]">
+          <div className="w-full flex items-center lg:justify-center  ">
             <video
               src={player?.videos[0]?.video}
               className="w-full lg:w-[480px] rounded-[8px]"

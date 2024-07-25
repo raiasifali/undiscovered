@@ -88,10 +88,10 @@ export default function AvailablePlayersRow({
   return (
     <div className="pt-[18px] border-b-[2px] border-b-[#DBDBDB] flex flex-col gap-[6px] lg:gap-[20px] pb-[20px] px-4">
       <div className="flex lg:hidden  items-center gap-[5px] ">
-        <span className="flex gap-[18px] items-center w-[40%] lg:w-[35%]">
+        <span className="flex gap-[18px] items-center w-[40%]  lg:w-[35%]">
           <img
             src={player?.picture}
-            className="w-[60px]  lg:w-[60px] lg:h-[60px]  object-cover"
+            className="rounded-full  w-[60px] lg:w-[60px] lg:h-[60px] object-cover"
             alt="avatar"
           />
           <p className=" font-sfPro text-[#4C8FE1] text-[18px] lg:text-[18px]">
@@ -198,11 +198,12 @@ export default function AvailablePlayersRow({
           )}
         </span>
       </div>
+
       <div className="lg:flex hidden  items-center gap-[5px] ">
         <span className="flex gap-[18px] items-center w-[40%] lg:w-[35%]">
           <img
             src={player?.picture}
-            className="w-[60px]  lg:w-[60px] lg:h-[60px]  object-cover"
+            className="w-[60px]  lg:w-[60px] lg:h-[60px] rounded-full  object-cover"
             alt="avatar"
           />
           <Link
@@ -350,6 +351,73 @@ export default function AvailablePlayersRow({
           )} */}
         </span>
       </div>
+      {!Collapsed ? (
+        <div className="lg:flex hidden  items-center gap-[5px] ">
+          <span className="flex gap-[18px] items-center w-[40%] lg:w-[35%]">
+            <img
+              src={player?.picture}
+              className="w-[60px]  lg:w-[60px] lg:h-[60px] rounded-full  object-cover"
+              alt="avatar"
+            />
+            <Link
+              to={`/player-profile/${player?.auth?._id}`}
+              className="text-[18px] font-medium text-[#4C8FE1] w-fit block  hover:underline"
+            >
+              {player?.auth?.name}
+            </Link>
+          </span>
+          <span className="w-[10%] lg:w-[15%]">
+            <p className="lg:text-[16px] text-[16px]">{player?.class}</p>
+          </span>
+          <span className="w-[10%] lg:w-[15%]">
+            <p className="lg:text-[16px] text-[16px]">{player?.height}</p>
+          </span>
+          <span className="w-[10%] lg:w-[10%] flex gap-[20px] items-center">
+            <p className="lg:text-[16px] text-[14px]">{player?.position}</p>
+          </span>
+          <span className="w-[10%] lg:w-[30%] flex gap-[20px] items-center">
+            <p className="font-sfPro text-[14px] flex items-center gap-[6px]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <g clip-path="url(#clip0_4139_861)">
+                  <path
+                    d="M17.5 8.33301C17.5 14.1663 10 19.1663 10 19.1663C10 19.1663 2.5 14.1663 2.5 8.33301C2.5 6.34388 3.29018 4.43623 4.6967 3.02971C6.10322 1.62318 8.01088 0.833008 10 0.833008C11.9891 0.833008 13.8968 1.62318 15.3033 3.02971C16.7098 4.43623 17.5 6.34388 17.5 8.33301Z"
+                    stroke="#25282B"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10 10.833C11.3807 10.833 12.5 9.71372 12.5 8.33301C12.5 6.9523 11.3807 5.83301 10 5.83301C8.61929 5.83301 7.5 6.9523 7.5 8.33301C7.5 9.71372 8.61929 10.833 10 10.833Z"
+                    stroke="#25282B"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_4139_861">
+                    <rect width="20" height="20" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              {player?.location}
+            </p>
+          </span>
+          <span className="w-[20%] lg:w-[30%] flex gap-[20px] justify-between">
+            <p className="text-black text-[16px] font-[400] flex gap-[10px] items-center">
+              <img src="/Ellipse 11939.png" width={20} />
+
+              <span> {player?.institute.universityName}</span>
+            </p>
+          </span>
+        </div>
+      ) : null}
       {player?.article && (
         <div
           className={`px-[20px] ${

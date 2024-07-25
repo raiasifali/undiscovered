@@ -14,6 +14,26 @@ export default function FavouritePlayers() {
   const [loading, setLoading] = useState(true);
   const [players, setPlayer] = useState();
 
+  const onFavourite = async (id, getAvailabilityPlayer) => {
+    setLoading(true);
+    const payload = {
+      coachId: JSON.parse(user)._id,
+      playerId: id,
+    };
+    console.log('Payload:', payload, JSON.parse(user));
+    await axios
+      .post(BASE_URL + '/favourites', payload)
+      .then((res) => {
+        toastr.success('Remove to Favourite');
+        setLoading(false);
+        getAvailabilityPlayer();
+      })
+      .catch(() => {
+        toastr.error('Something went wrong');
+        setLoading(false);
+      });
+  };
+
   const getAvailabilityPlayer = async () => {
     try {
       let response = await axios.get(
@@ -232,26 +252,48 @@ export default function FavouritePlayers() {
                 </div>
                 <button
                   type="button"
+                  onClick={() => onFavourite(items._id, getAvailabilityPlayer)}
                   class=" hover:bg-gray-100 border border-[#898989]  font-medium rounded-full text-sm p-1 text-center inline-flex items-center"
                 >
-                  <svg
-                    width="25"
-                    height="25"
-                    viewBox="0 0 25 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M13.6043 4.67701L15.4317 8.32776C15.6108 8.68616 15.9565 8.93467 16.3573 8.99218L20.4453 9.58062C21.4554 9.72644 21.8573 10.9505 21.1263 11.6519L18.1702 14.4924C17.8797 14.7718 17.7474 15.1733 17.8162 15.5676L18.5138 19.5778C18.6856 20.5698 17.6298 21.3267 16.727 20.8574L13.0732 18.9627C12.715 18.7768 12.286 18.7768 11.9268 18.9627L8.273 20.8574C7.37023 21.3267 6.31439 20.5698 6.48724 19.5778L7.18385 15.5676C7.25257 15.1733 7.12033 14.7718 6.82982 14.4924L3.87368 11.6519C3.14272 10.9505 3.54464 9.72644 4.55466 9.58062L8.64265 8.99218C9.04354 8.93467 9.39028 8.68616 9.56937 8.32776L11.3957 4.67701C11.8477 3.77433 13.1523 3.77433 13.6043 4.67701Z"
-                      fill="#FFCC4D"
-                      stroke="#212121"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                  {items?.favouriteBy?.includes(JSON.parse(user)._id) ? (
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M13.6043 4.67701L15.4317 8.32776C15.6108 8.68616 15.9565 8.93467 16.3573 8.99218L20.4453 9.58062C21.4554 9.72644 21.8573 10.9505 21.1263 11.6519L18.1702 14.4924C17.8797 14.7718 17.7474 15.1733 17.8162 15.5676L18.5138 19.5778C18.6856 20.5698 17.6298 21.3267 16.727 20.8574L13.0732 18.9627C12.715 18.7768 12.286 18.7768 11.9268 18.9627L8.273 20.8574C7.37023 21.3267 6.31439 20.5698 6.48724 19.5778L7.18385 15.5676C7.25257 15.1733 7.12033 14.7718 6.82982 14.4924L3.87368 11.6519C3.14272 10.9505 3.54464 9.72644 4.55466 9.58062L8.64265 8.99218C9.04354 8.93467 9.39028 8.68616 9.56937 8.32776L11.3957 4.67701C11.8477 3.77433 13.1523 3.77433 13.6043 4.67701Z"
+                        fill="#FFCC4D"
+                        stroke="#212121"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M13.6043 4.67701L15.4317 8.32776C15.6108 8.68616 15.9565 8.93467 16.3573 8.99218L20.4453 9.58062C21.4554 9.72644 21.8573 10.9505 21.1263 11.6519L18.1702 14.4924C17.8797 14.7718 17.7474 15.1733 17.8162 15.5676L18.5138 19.5778C18.6856 20.5698 17.6298 21.3267 16.727 20.8574L13.0732 18.9627C12.715 18.7768 12.286 18.7768 11.9268 18.9627L8.273 20.8574C7.37023 21.3267 6.31439 20.5698 6.48724 19.5778L7.18385 15.5676C7.25257 15.1733 7.12033 14.7718 6.82982 14.4924L3.87368 11.6519C3.14272 10.9505 3.54464 9.72644 4.55466 9.58062L8.64265 8.99218C9.04354 8.93467 9.39028 8.68616 9.56937 8.32776L11.3957 4.67701C11.8477 3.77433 13.1523 3.77433 13.6043 4.67701Z"
+                        fill="#212121"
+                        stroke="#212121"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
             </div>
